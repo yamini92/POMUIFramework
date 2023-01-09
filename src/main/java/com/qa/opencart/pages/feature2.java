@@ -6,4 +6,10 @@ public class feature2{
 		
 		String name = "Merging testing in git";
 }
+	
+	public void login(){
+		String test = "test";
+		String tname = "12345";
+
+	}
 }
