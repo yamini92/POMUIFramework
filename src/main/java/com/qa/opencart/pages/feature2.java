@@ -6,4 +6,10 @@ public class feature2{
 		
 		String name = "Merging testing in git";
 }
+	
+	public void login() {
+		String un = "test";
+		String pwd = "12345";
+		
+	}
 }
