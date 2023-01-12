@@ -5,7 +5,6 @@
 
 	<listeners>
 		<listener class-name="com.qa.opencart.listeners.ExtendReportListener" />
-		<listener class-name="com.qa.opencart.listeners.TestAllureListener" />
 	
 	</listeners>
 
