@@ -10,6 +10,8 @@ import org.openqa.selenium.WebElement;
 import com.qa.opencart.constants.AppConstants;
 import com.qa.opencart.utils.ElementUtils;
 
+import io.qameta.allure.Step;
+
 public class AccountsPage {
 
 	private WebDriver driver;
@@ -25,12 +27,14 @@ public class AccountsPage {
 		eleUtil = new ElementUtils(driver);
 	}
 	
+	@Step("getAccPageTitle......")
 	public String getAccPageTitle() {
 		String title = eleUtil.waitForTitleIs(AppConstants.DEFAULT_TIMEOUT, AppConstants.ACC_PAGE_TITLE);
 		System.out.println("Login page title ---" + title);
 		return title;
 	}
 	
+	@Step("getUrl......")
 	public boolean getUrl() {
 		String url =eleUtil.waitForUrlContains(AppConstants.DEFAULT_TIMEOUT, AppConstants.ACC_PAGE_URL_PARAM);
 		if(url.contains(AppConstants.ACC_PAGE_URL_PARAM)) {
@@ -40,14 +44,17 @@ public class AccountsPage {
 		
 	}
 	
+	@Step("isLogoutLinkExists......")
 	public boolean isLogoutLinkExists() {
 		return eleUtil.doEleIsDisplayed(logoutLink);
 	}
 	
+	@Step("isSearchExists......")
 	public boolean isSearchExists() {
 		return eleUtil.doEleIsDisplayed(search);
 	}
 	
+	@Step("SearchResultsPage......{0}")
 	public SearchResultsPage performSearch(String productKey) {
 		System.out.println("Searched productname " +productKey);
 		if(isSearchExists()) {
@@ -61,6 +68,8 @@ public class AccountsPage {
 		}
 		
 	}
+	
+	@Step("getAccHeadersList......")
 	public ArrayList<String> getAccHeadersList() {
 		
 		List<WebElement> secList = eleUtil.waitForElementsToBeVisible(AccSectionHeaders, AppConstants.DEFAULT_TIMEOUT_LONG);

@@ -5,8 +5,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 import com.qa.opencart.constants.AppConstants;
-import com.qa.opencart.factory.DriverFactory;
+//import com.qa.opencart.factory.DriverFactory;
 import com.qa.opencart.utils.ElementUtils;
+
+import io.qameta.allure.Step;
 
 public class LoginPage {
 
@@ -30,13 +32,15 @@ public class LoginPage {
 	
 	
 	//3. page actions
-	
+	@Step("Waiting for login page title and fetching the title")
 	public String getPageTitle() {
 		String title = eleUtil.waitForTitleIs(AppConstants.DEFAULT_TIMEOUT, AppConstants.LOGIN_PAGE_TITLE);
 		System.out.println("Login page title ---" + title);
 		LOG.info("Login page title ---" + title);
 		return title;
 	}
+	
+	@Step("Waiting for login page url and fetching the url")
 	public boolean getUrl() {
 		
 		String url =eleUtil.waitForUrlContains(AppConstants.DEFAULT_TIMEOUT, AppConstants.LOGIN_PAGE_URL_PARAM);
@@ -46,10 +50,13 @@ public class LoginPage {
 		return false;
 	}
 	
+	@Step("checking forgot pwd link is displayed on login page")
 	public boolean isForgotPasswordLinkExists() {
 		return eleUtil.doEleIsDisplayed(Fpasswd);
 	}
 	
+
+	@Step("login with username : {0} and password: {1}")
 	public AccountsPage doLogin(String username, String pwd) {
 		eleUtil.doSendKeysWithWait(emailId, AppConstants.DEFAULT_TIMEOUT_LONG, username);
 		eleUtil.doSendKeys(passwd, pwd);
@@ -57,6 +64,7 @@ public class LoginPage {
 		return new AccountsPage(driver);
 	}
 	
+	@Step("navigating to register page")
 	public RegistrationPage navigateToRegisterPage() {
 		eleUtil.doClickWithWait(regLink, AppConstants.DEFAULT_TIMEOUT);
 		return new RegistrationPage(driver);
