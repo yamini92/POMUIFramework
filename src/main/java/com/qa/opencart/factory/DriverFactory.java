@@ -99,7 +99,7 @@ public class DriverFactory {
 	 if(envName == null) {
 		 System.out.println("No env is set Hence running in QA env");
 		 try {
-			ip = new FileInputStream("srcTestResources/Config/qa.config.properties");
+			ip = new FileInputStream("src/test/resources/Config/qa.config.properties");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -110,14 +110,14 @@ public class DriverFactory {
 		 try {
 		 switch (envName) {
 		case "qa":
-			ip = new FileInputStream("./srcTestResources/Config/qa.config.properties");
+			ip = new FileInputStream("./src/test/resources/Config/qa.config.properties");
 			break;
 			
 		case  "dev":
-			ip = new FileInputStream("./srcTestResources/Config/dev.config.properties");
+			ip = new FileInputStream("./src/test/resources/Config/dev.config.properties");
 			break;
 		case "uat": 
-			ip = new FileInputStream("./srcTestResources/Config/config.properties");
+			ip = new FileInputStream("./src/test/resources/Config/config.properties");
 			break;
 		default:
 			System.out.println("Please pass right env");
