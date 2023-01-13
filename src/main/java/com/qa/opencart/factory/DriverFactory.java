@@ -67,7 +67,7 @@ public class DriverFactory {
 			System.out.println("Please select appropriate browser");
 			LOG.error("Please select appropriate browser" + browserName);
 		
-			throw new FrameworkExceptions(AppErrors.BROWESER_NOT_FOUND);
+			//throw new FrameworkExceptions(AppErrors.BROWESER_NOT_FOUND);
 		}
 		
 		getDriver().manage().deleteAllCookies();
