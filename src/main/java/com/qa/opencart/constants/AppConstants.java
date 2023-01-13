@@ -16,7 +16,7 @@ public class AppConstants {
 	
 	
 	
-	public static final int DEFAULT_TIMEOUT=5;
+	public static final int DEFAULT_TIMEOUT=7;
 	public static final int DEFAULT_TIMEOUT_LONG=10;
 	
 	
