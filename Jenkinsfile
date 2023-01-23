@@ -1,42 +1,104 @@
-pipeline{
+pipeline 
+{
     agent any
-    stages{
-        stage("Build"){
-            steps{
-            echo("Build the project")
+    
+    tools{
+    	maven 'maven'
+        }
+
+    stages 
+    {
+        stage('Build') 
+        {
+            steps
+            {
+                 git 'https://github.com/jglick/simple-maven-project-with-tests.git'
+                 sh "mvn -Dmaven.test.failure.ignore=true clean package"
+            }
+            post 
+            {
+                success
+                {
+                    junit '**/target/surefire-reports/TEST-*.xml'
+                    archiveArtifacts 'target/*.jar'
+                }
             }
         }
-        stage("deploy to dev env"){
+        
+        
+        
+        stage("Deploy to QA"){
             steps{
-            echo("deploy to dev env")
+                echo("deploy to qa")
             }
         }
-        stage("Run unit test cases"){
-            steps{
-            echo("Run unit test cases")
+                
+        stage('Regression Automation Test') {
+            steps {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    git 'https://github.com/naveenanimation20/June2022POMUIFramework.git'
+                    sh "mvn clean test -Dsurefire.suiteXmlFile=src/test/resources/testrunners/testng_regression.xml"
+                    
+                }
             }
         }
-        stage("Deploy to QA env"){
-            steps{
-            echo("Deploy to QA env")
+                
+     
+        stage('Publish Allure Reports') {
+           steps {
+                script {
+                    allure([
+                        includeProperties: false,
+                        jdk: '',
+                        properties: [],
+                        reportBuildPolicy: 'ALWAYS',
+                        results: [[path: '/allure-results']]
+                    ])
+                }
             }
         }
-        stage("Run ATs to QA env"){
+        
+        
+        stage('Publish Extent Report'){
             steps{
-            echo("Run ATs to QA env")
+                     publishHTML([allowMissing: false,
+                                  alwaysLinkToLastBuild: false, 
+                                  keepAll: true, 
+                                  reportDir: 'reports', 
+                                  reportFiles: 'TestExecutionReport.html', 
+                                  reportName: 'HTML Extent Report', 
+                                  reportTitles: ''])
             }
         }
-        stage("Run on stage env"){
+        
+        stage("Deploy to Stage"){
             steps{
-            echo("Run on stage env")
+                echo("deploy to Stage")
             }
-            
         }
-        stage("Run on Prod env"){
+        
+        stage('Sanity Automation Test') {
+            steps {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    git 'https://github.com/naveenanimation20/June2022POMUIFramework.git'
+                    sh "mvn clean test -Dsurefire.suiteXmlFile=src/test/resources/testrunners/testng_sanity.xml"
+                    
+                }
+            }
+        }
+        
+        stage('Publish sanity Extent Report'){
             steps{
-                echo("Run on Prod env")
+                     publishHTML([allowMissing: false,
+                                  alwaysLinkToLastBuild: false, 
+                                  keepAll: true, 
+                                  reportDir: 'reports', 
+                                  reportFiles: 'TestExecutionReport.html', 
+                                  reportName: 'HTML Sanity Extent Report', 
+                                  reportTitles: ''])
             }
-            
         }
+        
+        
     }
 }
